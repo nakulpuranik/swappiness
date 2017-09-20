@@ -1,0 +1,15 @@
+/**
+*
+*  Linux system programming
+*
+**/
+
+Assignment : Write a programe which will avoid the swapping.
+
+Description :
+Man page states that sysctl function is discouraged for using, instead /proc/sys interface is promoted.
+
+now we will be opening the file and changing the value of the swappiness.
+
+It is still a request to the kernel to manipulate the swapiness value ranging from 0 to 100. default being 60
+To print the current value of swapiness you can check it via command "cat /proc/sys/vm/swappiness". 
