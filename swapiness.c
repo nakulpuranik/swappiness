@@ -1,5 +1,5 @@
 /**
-* Source code opening specified file.
+* change the current swappiness value.
 */
 #include "header.h"
 
@@ -7,6 +7,8 @@ int _sysctl(struct __sysctl_args *args );
 void currentSwappinessValue();
 void changeSwappinessValue(int *swappinessValue);
 void validateNumberOfArguement(const int *input);
+
+#define SWAPPINESS_NAME_SIZE 256
 
 int main(int argc, char *argv[]){
 	
@@ -33,20 +35,24 @@ void changeSwappinessValue(int *swappinessValue){
 	struct __sysctl_args args;
 	int name[] = { CTL_VM };
 	int ret = 0;
+	char swapValue[SWAPPINESS_NAME_SIZE];
+	size_t oldSwappinessLnt;
 
 	memset(&args, 0, sizeof(struct __sysctl_args));
 	args.name = name;
    	args.nlen = sizeof(name)/sizeof(name[0]);
-   	args.oldval = 0;
-   	args.oldlenp = 0;
+   	args.oldval = swapValue;
+   	args.oldlenp = &oldSwappinessLnt;
    	args.newval = &swappinessValue;
    	args.newlen = sizeof(swappinessValue);
 
 
-	if ((ret = syscall(SYS__sysctl, &args)) == -1) {
-		write(1,ret,sizeof(ret));
+	if ((syscall(SYS__sysctl, &args)) == -1) {
 		perror("sysctl failed");
 	}
+
+
+	printf("This machines Old swap Value : %s",swapValue);
 }
 
 void currentSwappinessValue(){
